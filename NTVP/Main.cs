@@ -1,36 +1,44 @@
 ﻿using System;
-using Discount;
+using model;
 
 namespace NTVP
 {
-    class Program
+    class main
     {
         static void Main(string[] args)
         {
-            double percent;
-            double certificate;
-            double priceProduct;
-            IDiscount discount;
+            try
+            {
+                IDiscount discount;
+                Product product = new Product();
+                Percent percent = new Percent();
+                Certificate certificate = new Certificate();
 
-            Console.WriteLine("Расчет скидки по процентам");
-            Console.Write("Введите скидку: ");
-            percent = Convert.ToDouble(System.Console.ReadLine());
-            Console.Write("Введите цену товара: ");
-            priceProduct = Convert.ToDouble(System.Console.ReadLine());
-            Console.Write("Цена товара с учетом скидки: ");
-            discount = new Percent();
-            Console.WriteLine(discount.Discount(percent, priceProduct));
-            Console.WriteLine();
+                Console.WriteLine("Расчет скидки по процентам");
+                Console.Write("Введите скидку: ");
+                percent.Value = Convert.ToDouble(System.Console.ReadLine());
+                Console.Write("Введите цену товара: ");
+                product.Price = Convert.ToDouble(System.Console.ReadLine());
+                Console.Write("Цена товара с учетом скидки: ");
+                discount = percent;
+                Console.WriteLine(discount.Discount(product));
+                Console.WriteLine();
 
-            Console.WriteLine("Расчет скидки по сертификату");
-            Console.Write("Введите скидку сертификата: ");
-            certificate = Convert.ToDouble(System.Console.ReadLine());
-            Console.Write("Введите цену товара: ");
-            priceProduct = Convert.ToDouble(System.Console.ReadLine());
-            Console.Write("Цена товара с учетом скидки: ");
-            discount = new Certificate();
-            Console.WriteLine(discount.Discount(certificate, priceProduct));
-            Console.Read();
+                Console.WriteLine("Расчет скидки по сертификату");
+                Console.Write("Введите скидку сертификата: ");
+                certificate.Value = Convert.ToDouble(System.Console.ReadLine());
+                Console.Write("Введите цену товара: ");
+                product.Price = Convert.ToDouble(System.Console.ReadLine());
+                Console.Write("Цена товара с учетом скидки: ");
+                discount = certificate;
+                Console.WriteLine(discount.Discount(product));
+                Console.Read();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Console.Read();
+            }
         }
     }
 }
