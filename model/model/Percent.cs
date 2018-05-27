@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace model
 {
-    public class Percent : IDiscount
+    //Класс скидки по процентам
+    public class PercentDiscount : IDiscount
     {
-        private double _percent { get; set; }
+        private double _percent { get; set; }//Значение скидки
 
-        public double Value
+        public double Cost
         {
             get
             {
@@ -27,6 +28,7 @@ namespace model
             }
         }
 
+        //Вычесление цены товара с учетом процентной скидки
         public double Discount(Product product)
         {
             return product.Price * (1 - (_percent / 100));

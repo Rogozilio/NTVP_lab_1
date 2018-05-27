@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace model
 {
+    //Продукт
     public class Product
     {
-        private double _price { get; set; }
+        private double _price { get; set; }//Цена продукта
 
         public double Price
         {

@@ -11,12 +11,12 @@ namespace NTVP
             {
                 IDiscount discount;
                 Product product = new Product();
-                Percent percent = new Percent();
-                Certificate certificate = new Certificate();
+                PercentDiscount percent = new PercentDiscount();
+                CertificateDiscount certificate = new CertificateDiscount();
 
                 Console.WriteLine("Расчет скидки по процентам");
                 Console.Write("Введите скидку: ");
-                percent.Value = Convert.ToDouble(System.Console.ReadLine());
+                percent.Cost = Convert.ToDouble(System.Console.ReadLine());
                 Console.Write("Введите цену товара: ");
                 product.Price = Convert.ToDouble(System.Console.ReadLine());
                 Console.Write("Цена товара с учетом скидки: ");
@@ -26,7 +26,7 @@ namespace NTVP
 
                 Console.WriteLine("Расчет скидки по сертификату");
                 Console.Write("Введите скидку сертификата: ");
-                certificate.Value = Convert.ToDouble(System.Console.ReadLine());
+                certificate.Size = Convert.ToDouble(System.Console.ReadLine());
                 Console.Write("Введите цену товара: ");
                 product.Price = Convert.ToDouble(System.Console.ReadLine());
                 Console.Write("Цена товара с учетом скидки: ");

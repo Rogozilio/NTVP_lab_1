@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace model
 {
-    public class Certificate : IDiscount
+    //Класс скидки по сертификату
+    public class CertificateDiscount : IDiscount
     {
-        private double _certificate { get; set; }
+        private double _certificate { get; set; }//Значение сертификата
 
-        public double Value
+        public double Size
         {
             get
             {
@@ -26,11 +27,13 @@ namespace model
                 }
             }
         }
+
+        //Вычесление цены товара с учетом сертификата
         public double Discount(Product product)
         {
-            if (product.Price > Value)
+            if (product.Price > _certificate)
             {
-                return product.Price - Value;
+                return product.Price - _certificate;
             }
             else
             {
