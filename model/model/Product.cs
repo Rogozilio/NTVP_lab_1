@@ -6,10 +6,16 @@ using System.Threading.Tasks;
 
 namespace model
 {
-    //Продукт
+    /// <summary>
+    /// Продукт
+    /// </summary>
+    [Serializable]
     public class Product
     {
-        private double _price { get; set; }//Цена продукта
+        /// <summary>
+        /// Цена продукта
+        /// </summary>
+        private double _price { get; set; }
 
         public double Price
         {

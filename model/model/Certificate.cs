@@ -6,10 +6,21 @@ using System.Threading.Tasks;
 
 namespace model
 {
-    //Класс скидки по сертификату
+    /// <summary>
+    /// Класс скидки по сертификату
+    /// </summary>
+    [Serializable]
     public class CertificateDiscount : IDiscount
     {
-        private double _certificate { get; set; }//Значение сертификата
+        /// <summary>
+        /// Вернуть значение процентной скидки = 0 т.к. в данном классе учитывется только сертификат
+        /// </summary>
+        public double Percent => 0;
+
+        /// <summary>
+        /// Значение сертификата
+        /// </summary>
+        private double _certificate { get; set; }
 
         public double Size
         {
@@ -28,17 +39,46 @@ namespace model
             }
         }
 
-        //Вычесление цены товара с учетом сертификата
+        /// <summary>
+        /// Вернуть сертификат
+        /// </summary>
+        public double Certificate => _certificate;
+
+        /// <summary>
+        /// Цена товара
+        /// </summary>
+        private double _price;
+
+        /// <summary>
+        /// Цена товара с учетом скидки
+        /// </summary>
+        private double _result;
+
+        /// <summary>
+        /// Вычесление цены товара с учетом сертификата
+        /// </summary>
         public double Discount(Product product)
         {
+            _price = product.Price;
             if (product.Price > _certificate)
             {
-                return product.Price - _certificate;
+                _result = product.Price - _certificate;
+                return _result;
             }
             else
             {
                 return 0;
             }
         }
+
+        /// <summary>
+        /// Вернуть цену товара
+        /// </summary>
+        public double Price => _price;
+
+        /// <summary>
+        /// Вернуть цену товара с учетом скидки
+        /// </summary>
+        public double Result => _result;
     }
 }
