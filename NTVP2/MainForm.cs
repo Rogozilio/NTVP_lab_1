@@ -53,7 +53,7 @@ namespace NTVP2
         /// </summary>
         private void AddDiscountButton_Click(object sender, EventArgs e)
         {
-            AddDiscountForm AddDiscountForm = new AddDiscountForm(this);
+            AddDiscountForm AddDiscountForm = new AddDiscountForm(iDiscountBindingSource);
             AddDiscountForm.Show();
         }
 

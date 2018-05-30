@@ -33,6 +33,11 @@
             this.LoadButton = new System.Windows.Forms.Button();
             this.SaveButton = new System.Windows.Forms.Button();
             this.DiscountGridView = new System.Windows.Forms.DataGridView();
+            this.priceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.percentDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.certificateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.resultDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.iDiscountBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.CreateRandomDataButton = new System.Windows.Forms.Button();
             this.AddDiscountButton = new System.Windows.Forms.Button();
             this.RemoveDiscountButton = new System.Windows.Forms.Button();
@@ -40,15 +45,10 @@
             this.FindStringButton = new System.Windows.Forms.Button();
             this.DiscountComboBox = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.iDiscountBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.priceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.percentDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.certificateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.resultDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DiscountGridView)).BeginInit();
-            this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.iDiscountBindingSource)).BeginInit();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -103,6 +103,38 @@
             this.DiscountGridView.ReadOnly = true;
             this.DiscountGridView.Size = new System.Drawing.Size(436, 148);
             this.DiscountGridView.TabIndex = 6;
+            // 
+            // priceDataGridViewTextBoxColumn
+            // 
+            this.priceDataGridViewTextBoxColumn.DataPropertyName = "Price";
+            this.priceDataGridViewTextBoxColumn.HeaderText = "Price";
+            this.priceDataGridViewTextBoxColumn.Name = "priceDataGridViewTextBoxColumn";
+            this.priceDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // percentDataGridViewTextBoxColumn
+            // 
+            this.percentDataGridViewTextBoxColumn.DataPropertyName = "Percent";
+            this.percentDataGridViewTextBoxColumn.HeaderText = "Percent";
+            this.percentDataGridViewTextBoxColumn.Name = "percentDataGridViewTextBoxColumn";
+            this.percentDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // certificateDataGridViewTextBoxColumn
+            // 
+            this.certificateDataGridViewTextBoxColumn.DataPropertyName = "Certificate";
+            this.certificateDataGridViewTextBoxColumn.HeaderText = "Certificate";
+            this.certificateDataGridViewTextBoxColumn.Name = "certificateDataGridViewTextBoxColumn";
+            this.certificateDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // resultDataGridViewTextBoxColumn
+            // 
+            this.resultDataGridViewTextBoxColumn.DataPropertyName = "Result";
+            this.resultDataGridViewTextBoxColumn.HeaderText = "Result";
+            this.resultDataGridViewTextBoxColumn.Name = "resultDataGridViewTextBoxColumn";
+            this.resultDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // iDiscountBindingSource
+            // 
+            this.iDiscountBindingSource.DataSource = typeof(model.IDiscount);
             // 
             // CreateRandomDataButton
             // 
@@ -176,52 +208,20 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Find element";
             // 
-            // iDiscountBindingSource
-            // 
-            this.iDiscountBindingSource.DataSource = typeof(model.IDiscount);
-            // 
-            // priceDataGridViewTextBoxColumn
-            // 
-            this.priceDataGridViewTextBoxColumn.DataPropertyName = "Price";
-            this.priceDataGridViewTextBoxColumn.HeaderText = "Price";
-            this.priceDataGridViewTextBoxColumn.Name = "priceDataGridViewTextBoxColumn";
-            this.priceDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // percentDataGridViewTextBoxColumn
-            // 
-            this.percentDataGridViewTextBoxColumn.DataPropertyName = "Percent";
-            this.percentDataGridViewTextBoxColumn.HeaderText = "Percent";
-            this.percentDataGridViewTextBoxColumn.Name = "percentDataGridViewTextBoxColumn";
-            this.percentDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // certificateDataGridViewTextBoxColumn
-            // 
-            this.certificateDataGridViewTextBoxColumn.DataPropertyName = "Certificate";
-            this.certificateDataGridViewTextBoxColumn.HeaderText = "Certificate";
-            this.certificateDataGridViewTextBoxColumn.Name = "certificateDataGridViewTextBoxColumn";
-            this.certificateDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // resultDataGridViewTextBoxColumn
-            // 
-            this.resultDataGridViewTextBoxColumn.DataPropertyName = "Result";
-            this.resultDataGridViewTextBoxColumn.HeaderText = "Result";
-            this.resultDataGridViewTextBoxColumn.Name = "resultDataGridViewTextBoxColumn";
-            this.resultDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(722, 197);
+            this.ClientSize = new System.Drawing.Size(721, 197);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "MainForm";
             this.Text = "DiscountForm";
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.DiscountGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.iDiscountBindingSource)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.iDiscountBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
