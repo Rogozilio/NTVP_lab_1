@@ -1,27 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization.Json;
 using System.IO;
-using model;
+using Discounts;
 
 namespace NTVP2
 {
     public partial class MainForm : Form
     {
-
+        /// <summary>
+        /// Список скидок
+        /// </summary>
         private List<IDiscount> DiscountList;
+
+        /// <summary>
+        /// Конструктор главной формы
+        /// </summary>
         public MainForm()
         {
             InitializeComponent();
             DiscountList = new List<IDiscount>();
             iDiscountBindingSource.DataSource = DiscountList;
+            string[] typeDiscount = { "Percent", "Certificate" };
+            TypeDiscountComboBox.Items.AddRange(typeDiscount);
+            string[] find = { "ValueDiscount", "Price", "Result" };
+            FindComboBox.Items.AddRange(find);
             #if !DEBUG
             CreateRandomDataButton.Visible = false;
             #endif
@@ -53,8 +57,42 @@ namespace NTVP2
         /// </summary>
         private void AddDiscountButton_Click(object sender, EventArgs e)
         {
-            AddDiscountForm AddDiscountForm = new AddDiscountForm(iDiscountBindingSource);
-            AddDiscountForm.Show();
+            AddDiscountForm AddDiscountForm = new AddDiscountForm();
+            AddDiscountForm.ShowDialog();
+            if(AddDiscountForm.DiscountControl.DiscountComboBox.Text != "")
+            {
+                iDiscountBindingSource.Add(AddDiscountForm.AddLine);
+            }
+  
+        }
+
+        /// <summary>
+        /// Создание формы для изменения данных в таблице
+        /// </summary>
+        private void ModifyDiscountButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                AddDiscountForm AddDiscountForm = new AddDiscountForm();
+                AddDiscountForm.AcceptAddDiscountButton.Text = "Modify";
+                AddDiscountForm.DiscountControl.DiscountComboBox.Text =
+                    Convert.ToString(DiscountGridView[0, DiscountGridView.CurrentRow.Index].Value);
+                AddDiscountForm.DiscountControl.DiscountTextBox.Text =
+                    Convert.ToString(DiscountGridView[1, DiscountGridView.CurrentRow.Index].Value);
+                AddDiscountForm.DiscountControl.PriceTextBox.Text =
+                    Convert.ToString(DiscountGridView[2, DiscountGridView.CurrentRow.Index].Value);
+                AddDiscountForm.ShowDialog();
+                if (AddDiscountForm.DiscountControl.DiscountComboBox.Text != "")
+                {
+                    iDiscountBindingSource.Insert(DiscountGridView.CurrentRow.Index, AddDiscountForm.AddLine);
+                    iDiscountBindingSource.RemoveAt(DiscountGridView.CurrentRow.Index);
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return;
+            }
         }
 
         /// <summary>
@@ -68,8 +106,7 @@ namespace NTVP2
             }
             catch (Exception ex)
             {
-                ExeptionForm exceptionForm = new ExeptionForm(ex.Message);
-                exceptionForm.Show();
+                MessageBox.Show(ex.Message);
                 return;
             }
         }
@@ -79,10 +116,19 @@ namespace NTVP2
         /// </summary>
         private void SaveButton_Click(object sender, EventArgs e)
         {
-            BinaryFormatter formatter = new BinaryFormatter();
-            using (FileStream fs = new FileStream("Discount.rog", FileMode.OpenOrCreate))
+            try
             {
-                formatter.Serialize(fs, DiscountList);
+                DataContractJsonSerializer serializeDiscount = new DataContractJsonSerializer(typeof(List<IDiscount>));
+
+                using (FileStream fs = new FileStream("people.json", FileMode.OpenOrCreate))
+                {
+                    serializeDiscount.WriteObject(fs, DiscountList);
+                }
+            }
+                        catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return;
             }
         }
 
@@ -91,11 +137,11 @@ namespace NTVP2
         /// </summary>
         private void LoadButton_Click(object sender, EventArgs e)
         {
-            BinaryFormatter formatter = new BinaryFormatter();
-            using (FileStream fs = new FileStream("Discount.rog", FileMode.OpenOrCreate))
+            DataContractJsonSerializer serializeDiscount = new DataContractJsonSerializer(typeof(List<IDiscount>));
+
+            using (FileStream fs = new FileStream("people.json", FileMode.OpenOrCreate))
             {
-                DiscountList = (List<IDiscount>)formatter.Deserialize(fs);
-                iDiscountBindingSource.DataSource = DiscountList;
+                DiscountList = (List<IDiscount>)serializeDiscount.ReadObject(fs);
             }
         }
 
@@ -104,13 +150,12 @@ namespace NTVP2
         /// </summary>
         private void FindStringButton_Click(object sender, EventArgs e)
         {
-            switch (DiscountComboBox.Text)
+            switch (FindComboBox.Text)
             {
-                case "Percent": FindElement(0); break;
-                case "Certificate": FindElement(1); break;
-                case "PriceProduct": FindElement(2); break;
+                case "ValueDiscount": FindElement(1); break;
+                case "Price": FindElement(2); break;
                 case "Result": FindElement(3); break;
-                default: break;
+                default: DiscountGridView.ClearSelection(); break;
             }
         }
 
@@ -119,12 +164,31 @@ namespace NTVP2
         /// </summary>
         private void FindElement(int index)
         {
-            for(int i = 0; i < DiscountGridView.RowCount; i++)
+            try
+            {
+                DiscountGridView.ClearSelection();
+                for (int i = 0; i < DiscountGridView.RowCount; i++)
                 {
-                if (Convert.ToDouble(DiscountGridView[index, i].Value) == Convert.ToDouble(textBox1.Text))
-                {
-                    DiscountGridView.Rows[i].Cells[index].Selected = true;
+                    if (Convert.ToDouble(DiscountGridView[index, i].Value) == Convert.ToDouble(ValueTextBox.Text)
+                        && Convert.ToString(DiscountGridView[0, i].Value) == TypeDiscountComboBox.Text)
+                    {
+                        DiscountGridView.Rows[i].Cells[index].Selected = true;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return;
+            }
+        }
+
+        private void TypeDiscountComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(TypeDiscountComboBox.Text != "")
+            {
+                FindLabel.Visible = true;
+                FindComboBox.Visible = true;
             }
         }
     }

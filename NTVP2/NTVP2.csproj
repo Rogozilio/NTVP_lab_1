@@ -53,15 +53,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="model, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Discounts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\model\model\bin\Debug\model.dll</HintPath>
+      <HintPath>..\Discounts\Discounts\bin\Debug\Discounts.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=3.10.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.10.1\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -85,12 +86,6 @@
     <Compile Include="AddDiscountForm.Designer.cs">
       <DependentUpon>AddDiscountForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ExeptionForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ExeptionForm.Designer.cs">
-      <DependentUpon>ExeptionForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="ObjectControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -104,9 +99,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AddDiscountForm.resx">
       <DependentUpon>AddDiscountForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ExeptionForm.resx">
-      <DependentUpon>ExeptionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ObjectControl.resx">
       <DependentUpon>ObjectControl.cs</DependentUpon>
