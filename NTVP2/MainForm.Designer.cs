@@ -46,10 +46,12 @@
             this.FindStringButton = new System.Windows.Forms.Button();
             this.TypeDiscountComboBox = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.FindComboBox = new System.Windows.Forms.ComboBox();
-            this.TypeDiscountLabel = new System.Windows.Forms.Label();
-            this.FindLabel = new System.Windows.Forms.Label();
             this.ValueLabel = new System.Windows.Forms.Label();
+            this.FindLabel = new System.Windows.Forms.Label();
+            this.TypeDiscountLabel = new System.Windows.Forms.Label();
+            this.FindComboBox = new System.Windows.Forms.ComboBox();
+            this.OpenFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.SaveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DiscountGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iDiscountBindingSource)).BeginInit();
@@ -225,24 +227,14 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Find element";
             // 
-            // FindComboBox
+            // ValueLabel
             // 
-            this.FindComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.FindComboBox.FormattingEnabled = true;
-            this.FindComboBox.Location = new System.Drawing.Point(89, 49);
-            this.FindComboBox.Name = "FindComboBox";
-            this.FindComboBox.Size = new System.Drawing.Size(90, 21);
-            this.FindComboBox.TabIndex = 10;
-            this.FindComboBox.Visible = false;
-            // 
-            // TypeDiscountLabel
-            // 
-            this.TypeDiscountLabel.AutoSize = true;
-            this.TypeDiscountLabel.Location = new System.Drawing.Point(9, 24);
-            this.TypeDiscountLabel.Name = "TypeDiscountLabel";
-            this.TypeDiscountLabel.Size = new System.Drawing.Size(74, 13);
-            this.TypeDiscountLabel.TabIndex = 11;
-            this.TypeDiscountLabel.Text = "Type discount";
+            this.ValueLabel.AutoSize = true;
+            this.ValueLabel.Location = new System.Drawing.Point(49, 79);
+            this.ValueLabel.Name = "ValueLabel";
+            this.ValueLabel.Size = new System.Drawing.Size(34, 13);
+            this.ValueLabel.TabIndex = 13;
+            this.ValueLabel.Text = "Value";
             // 
             // FindLabel
             // 
@@ -254,14 +246,28 @@
             this.FindLabel.Text = "Find";
             this.FindLabel.Visible = false;
             // 
-            // ValueLabel
+            // TypeDiscountLabel
             // 
-            this.ValueLabel.AutoSize = true;
-            this.ValueLabel.Location = new System.Drawing.Point(49, 79);
-            this.ValueLabel.Name = "ValueLabel";
-            this.ValueLabel.Size = new System.Drawing.Size(34, 13);
-            this.ValueLabel.TabIndex = 13;
-            this.ValueLabel.Text = "Value";
+            this.TypeDiscountLabel.AutoSize = true;
+            this.TypeDiscountLabel.Location = new System.Drawing.Point(9, 24);
+            this.TypeDiscountLabel.Name = "TypeDiscountLabel";
+            this.TypeDiscountLabel.Size = new System.Drawing.Size(74, 13);
+            this.TypeDiscountLabel.TabIndex = 11;
+            this.TypeDiscountLabel.Text = "Type discount";
+            // 
+            // FindComboBox
+            // 
+            this.FindComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.FindComboBox.FormattingEnabled = true;
+            this.FindComboBox.Location = new System.Drawing.Point(89, 49);
+            this.FindComboBox.Name = "FindComboBox";
+            this.FindComboBox.Size = new System.Drawing.Size(90, 21);
+            this.FindComboBox.TabIndex = 10;
+            this.FindComboBox.Visible = false;
+            // 
+            // OpenFileDialog
+            // 
+            this.OpenFileDialog.FileName = "SerializeFileDialog";
             // 
             // MainForm
             // 
@@ -304,6 +310,8 @@
         private System.Windows.Forms.Label FindLabel;
         private System.Windows.Forms.Label TypeDiscountLabel;
         private System.Windows.Forms.ComboBox FindComboBox;
+        private System.Windows.Forms.OpenFileDialog OpenFileDialog;
+        private System.Windows.Forms.SaveFileDialog SaveFileDialog;
     }
 }
 

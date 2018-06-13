@@ -7,7 +7,7 @@ namespace Discounts
     /// Класс скидки по процентам
     /// </summary>
 
-    [DataContract]
+    [Serializable]
     public class PercentDiscount : IDiscount
     {
         /// <summary>
@@ -18,7 +18,6 @@ namespace Discounts
         /// <summary>
         /// Значение скидки
         /// </summary>
-        [DataMember]
         private double _percent { get; set; }
 
         public double Cost

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using System.Runtime.Serialization.Json;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using Discounts;
 
@@ -118,14 +118,19 @@ namespace NTVP2
         {
             try
             {
-                DataContractJsonSerializer serializeDiscount = new DataContractJsonSerializer(typeof(List<IDiscount>));
-
-                using (FileStream fs = new FileStream("people.json", FileMode.OpenOrCreate))
+                if (SaveFileDialog.ShowDialog() == DialogResult.Cancel)
                 {
-                    serializeDiscount.WriteObject(fs, DiscountList);
+                    return;
+                }
+
+                BinaryFormatter formatter = new BinaryFormatter();
+
+                using (FileStream fs = new FileStream(SaveFileDialog.FileName, FileMode.OpenOrCreate))
+                {
+                    formatter.Serialize(fs, DiscountList);
                 }
             }
-                        catch (Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
                 return;
@@ -137,11 +142,26 @@ namespace NTVP2
         /// </summary>
         private void LoadButton_Click(object sender, EventArgs e)
         {
-            DataContractJsonSerializer serializeDiscount = new DataContractJsonSerializer(typeof(List<IDiscount>));
-
-            using (FileStream fs = new FileStream("people.json", FileMode.OpenOrCreate))
+            try
             {
-                DiscountList = (List<IDiscount>)serializeDiscount.ReadObject(fs);
+                if (OpenFileDialog.ShowDialog() == DialogResult.Cancel)
+                {
+                    return;
+                }
+
+                OpenFileDialog.ShowDialog();
+                BinaryFormatter formatter = new BinaryFormatter();
+
+                using (FileStream fs = new FileStream(OpenFileDialog.FileName, FileMode.OpenOrCreate))
+                {
+                    DiscountList = (List<IDiscount>)formatter.Deserialize(fs);
+                    iDiscountBindingSource.DataSource = DiscountList;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return;
             }
         }
 

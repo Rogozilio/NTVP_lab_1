@@ -6,13 +6,12 @@ namespace Discounts
     /// <summary>
     /// Продукт
     /// </summary>
-    [DataContract]
+    [Serializable]
     public class Product
     {
         /// <summary>
         /// Цена продукта
         /// </summary>
-        [DataMember]
         private double _price { get; set; }
 
         public double Price
