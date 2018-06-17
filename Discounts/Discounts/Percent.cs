@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
 namespace Discounts
 {
     /// <summary>
     /// Класс скидки по процентам
     /// </summary>
-
-    [Serializable]
     public class PercentDiscount : IDiscount
     {
         /// <summary>
@@ -20,6 +17,9 @@ namespace Discounts
         /// </summary>
         private double _percent { get; set; }
 
+        /// <summary>
+        /// Свойство начения скидки
+        /// </summary>
         public double Cost
         {
             get
@@ -45,21 +45,50 @@ namespace Discounts
         /// <summary>
         /// Цена товара
         /// </summary>
-        private double _price;
+        private double _price { get; set; }
+
+        /// <summary>
+        /// Свойство цены товара
+        /// </summary>
+        public double PriceProduct
+        {
+            get
+            {
+                return _price;
+            }
+            set
+            {
+                _price = value;
+            }
+        }
 
         /// <summary>
         /// Цена товара с учетом скидки
         /// </summary>
-        private double _result;
+        private double _result { get; set; }
 
+        /// <summary>
+        /// Свойство цены товара с учетом скидки
+        /// </summary>
+        public double ResultPrice
+        {
+            get
+            {
+                return _result;
+            }
+            set
+            {
+                _result = value;
+            }
+        }
         /// <summary>
         /// Вычесление цены товара с учетом процентной скидки
         /// </summary>
         public double Discount(Product product)
         {
-            _price = product.Price;
-            _result = product.Price * (1 - (_percent / 100));
-            return _result;
+            PriceProduct = product.Price;
+            ResultPrice = product.Price * (1 - (_percent / 100));
+            return ResultPrice;
         }
 
         /// <summary>

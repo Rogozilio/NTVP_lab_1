@@ -106,9 +106,9 @@
         #endregion
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label ProductPriceLabel;
-        public System.Windows.Forms.ComboBox DiscountComboBox;
-        public System.Windows.Forms.TextBox DiscountTextBox;
         public System.Windows.Forms.Label DiscountLabel;
-        public System.Windows.Forms.TextBox PriceTextBox;
+        private System.Windows.Forms.ComboBox DiscountComboBox;
+        private System.Windows.Forms.TextBox DiscountTextBox;
+        private System.Windows.Forms.TextBox PriceTextBox;
     }
 }

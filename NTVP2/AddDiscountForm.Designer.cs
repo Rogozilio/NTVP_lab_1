@@ -30,7 +30,6 @@
         {
             this.CancelAddDiscountButton = new System.Windows.Forms.Button();
             this.AcceptAddDiscountButton = new System.Windows.Forms.Button();
-            this.DiscountControl = new NTVP2.DiscountControl();
             this.SuspendLayout();
             // 
             // CancelAddDiscountButton
@@ -54,22 +53,15 @@
             this.AcceptAddDiscountButton.UseVisualStyleBackColor = true;
             this.AcceptAddDiscountButton.Click += new System.EventHandler(this.AcceptAddDiscountButton_Click);
             // 
-            // DiscountControl
-            // 
-            this.DiscountControl.Location = new System.Drawing.Point(5, 12);
-            this.DiscountControl.Name = "DiscountControl";
-            this.DiscountControl.ReadOnly = true;
-            this.DiscountControl.Size = new System.Drawing.Size(186, 124);
-            this.DiscountControl.TabIndex = 6;
-            // 
             // AddDiscountForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(190, 179);
-            this.Controls.Add(this.DiscountControl);
+            this.ClientSize = new System.Drawing.Size(186, 177);
             this.Controls.Add(this.AcceptAddDiscountButton);
             this.Controls.Add(this.CancelAddDiscountButton);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.MaximizeBox = false;
             this.Name = "AddDiscountForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "AddDiscountForm";
@@ -79,7 +71,6 @@
 
         #endregion
         private System.Windows.Forms.Button CancelAddDiscountButton;
-        public DiscountControl DiscountControl;
-        public System.Windows.Forms.Button AcceptAddDiscountButton;
+        private System.Windows.Forms.Button AcceptAddDiscountButton;
     }
 }

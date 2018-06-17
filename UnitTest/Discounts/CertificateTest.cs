@@ -26,7 +26,9 @@ namespace UnitTest.model
             certificate.Size = 10;
             IDiscount discount = certificate;
 
-            Assert.AreEqual(discount.Discount(product), 190);
+            double excepted = discount.Discount(product);
+            double actual = 190;
+            Assert.AreEqual(excepted, actual);
         }
     }
 }

@@ -6,7 +6,6 @@ namespace Discounts
     /// <summary>
     /// Класс скидки по сертификату
     /// </summary>
-    [Serializable]
     public class CertificateDiscount : IDiscount
     { 
         /// <summary>
@@ -19,6 +18,9 @@ namespace Discounts
         /// </summary>
         private double _certificate { get; set; }
 
+        /// <summary>
+        /// Свойство значения сертификата
+        /// </summary>
         public double Size
         {
             get
@@ -44,23 +46,53 @@ namespace Discounts
         /// <summary>
         /// Цена товара
         /// </summary>
-        private double _price;
+        private double _price { get; set; }
+
+        /// <summary>
+        /// Свойство цены товара
+        /// </summary>
+        public double PriceProduct
+        {
+            get
+            {
+                return _price;
+            }
+            set
+            {
+                _price = value;
+            }
+        }
 
         /// <summary>
         /// Цена товара с учетом скидки
         /// </summary>
-        private double _result;
+        private double _result { get; set; }
+
+        /// <summary>
+        /// Свойство цены товара с учетом скидки
+        /// </summary>
+        public double ResultPrice
+        {
+            get
+            {
+                return _result;
+            }
+            set
+            {
+                _result = value;
+            }
+        }
 
         /// <summary>
         /// Вычесление цены товара с учетом сертификата
         /// </summary>
         public double Discount(Product product)
         {
-            _price = product.Price;
-            if (product.Price > _certificate)
+            PriceProduct = product.Price;
+            if (PriceProduct > _certificate)
             {
-                _result = product.Price - _certificate;
-                return _result;
+                ResultPrice = PriceProduct - _certificate;
+                return ResultPrice;
             }
             else
             {

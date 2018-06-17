@@ -6,7 +6,6 @@ namespace Discounts
     /// <summary>
     /// Продукт
     /// </summary>
-    [Serializable]
     public class Product
     {
         /// <summary>

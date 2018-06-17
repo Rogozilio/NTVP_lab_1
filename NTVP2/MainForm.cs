@@ -7,6 +7,9 @@ using Discounts;
 
 namespace NTVP2
 {
+    /// <summary>
+    /// Главная форма
+    /// </summary>
     public partial class MainForm : Form
     {
         /// <summary>
@@ -59,11 +62,11 @@ namespace NTVP2
         {
             AddDiscountForm AddDiscountForm = new AddDiscountForm();
             AddDiscountForm.ShowDialog();
-            if(AddDiscountForm.DiscountControl.DiscountComboBox.Text != "")
+            if (AddDiscountForm.AddDiscount != null)
             {
-                iDiscountBindingSource.Add(AddDiscountForm.AddLine);
+               iDiscountBindingSource.Add(AddDiscountForm.AddDiscount);
             }
-  
+
         }
 
         /// <summary>
@@ -74,17 +77,11 @@ namespace NTVP2
             try
             {
                 AddDiscountForm AddDiscountForm = new AddDiscountForm();
-                AddDiscountForm.AcceptAddDiscountButton.Text = "Modify";
-                AddDiscountForm.DiscountControl.DiscountComboBox.Text =
-                    Convert.ToString(DiscountGridView[0, DiscountGridView.CurrentRow.Index].Value);
-                AddDiscountForm.DiscountControl.DiscountTextBox.Text =
-                    Convert.ToString(DiscountGridView[1, DiscountGridView.CurrentRow.Index].Value);
-                AddDiscountForm.DiscountControl.PriceTextBox.Text =
-                    Convert.ToString(DiscountGridView[2, DiscountGridView.CurrentRow.Index].Value);
+                AddDiscountForm.ModifyDiscount = (IDiscount)iDiscountBindingSource.Current;
                 AddDiscountForm.ShowDialog();
-                if (AddDiscountForm.DiscountControl.DiscountComboBox.Text != "")
+                if (AddDiscountForm.AddDiscount != null)
                 {
-                    iDiscountBindingSource.Insert(DiscountGridView.CurrentRow.Index, AddDiscountForm.AddLine);
+                    iDiscountBindingSource.Insert(DiscountGridView.CurrentRow.Index, AddDiscountForm.AddDiscount);
                     iDiscountBindingSource.RemoveAt(DiscountGridView.CurrentRow.Index);
                 }
             }
@@ -102,60 +99,18 @@ namespace NTVP2
         {
             try
             {
-                iDiscountBindingSource.RemoveCurrent();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                return;
-            }
-        }
-
-        /// <summary>
-        /// Сериализация данных
-        /// </summary>
-        private void SaveButton_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (SaveFileDialog.ShowDialog() == DialogResult.Cancel)
+                bool isAllottedRow = false;
+                for (int i = DiscountGridView.Rows.Count - 1; i >= 0; i--)
                 {
-                    return;
+                    if(DiscountGridView.Rows[i].Selected)
+                    {
+                        isAllottedRow = true;
+                        iDiscountBindingSource.RemoveAt(i);
+                    }
                 }
-
-                BinaryFormatter formatter = new BinaryFormatter();
-
-                using (FileStream fs = new FileStream(SaveFileDialog.FileName, FileMode.OpenOrCreate))
+                if(isAllottedRow == false)
                 {
-                    formatter.Serialize(fs, DiscountList);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                return;
-            }
-        }
-
-        /// <summary>
-        /// Десериализация данныз
-        /// </summary>
-        private void LoadButton_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (OpenFileDialog.ShowDialog() == DialogResult.Cancel)
-                {
-                    return;
-                }
-
-                OpenFileDialog.ShowDialog();
-                BinaryFormatter formatter = new BinaryFormatter();
-
-                using (FileStream fs = new FileStream(OpenFileDialog.FileName, FileMode.OpenOrCreate))
-                {
-                    DiscountList = (List<IDiscount>)formatter.Deserialize(fs);
-                    iDiscountBindingSource.DataSource = DiscountList;
+                    throw new Exception("Для удаления нужно выделить строку");
                 }
             }
             catch (Exception ex)
@@ -203,12 +158,64 @@ namespace NTVP2
             }
         }
 
+        /// <summary>
+        /// Событие при пустом TypeDiscountComboBox
+        /// </summary>
         private void TypeDiscountComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if(TypeDiscountComboBox.Text != "")
             {
                 FindLabel.Visible = true;
                 FindComboBox.Visible = true;
+            }
+        }
+
+        /// <summary>
+        /// Открытие файла
+        /// </summary>
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DiscountList = Serialize.OpenData(DiscountList);
+                iDiscountBindingSource.DataSource = DiscountList;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return;
+            }
+        }
+
+        /// <summary>
+        /// Сохранение файла
+        /// </summary>
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Serialize.SaveData(DiscountList);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return;
+            }
+        }
+
+        /// <summary>
+        /// Сохранение файла с выбором пути файла
+        /// </summary>
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Serialize.SaveAsData(DiscountList);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return;
             }
         }
     }

@@ -4,12 +4,12 @@ using Discounts;
 
 namespace NTVP2
 {
+    /// <summary>
+    /// форма для добавления скидки
+    /// </summary>
     public partial class AddDiscountForm : Form
     {
-        /// <summary>
-        /// Свойство для заполнения таблицы главной формы
-        /// </summary>
-        public IDiscount AddLine { get; set; }
+        DiscountControl discountControl = new DiscountControl();
 
         /// <summary>
         /// Конструктор формы для добавления
@@ -17,46 +17,44 @@ namespace NTVP2
         public AddDiscountForm()
         {
             InitializeComponent();
-            string[] discountComboBoxValue = { "Percent", "Certificate" };
-            DiscountControl.DiscountComboBox.Items.AddRange(discountComboBoxValue);
+            discountControl.Location = new System.Drawing.Point(5, 12);
+            Controls.Add(discountControl);
+            discountControl.Show();
         }
+        /// <summary>
+        /// Свойство для заполнения таблицы главной формы
+        /// </summary>
+        public IDiscount AddDiscount { get; set; }
+
+        /// <summary>
+        /// Свойство изменения скидки
+        /// </summary>
+        public IDiscount ModifyDiscount
+        {
+            set
+            {
+                AcceptAddDiscountButton.Text = "Modify";
+                discountControl.ModifyDiscount = value;
+                discountControl.Location = new System.Drawing.Point(5, 12);
+                Controls.Add(discountControl);
+                discountControl.Show();
+            }    
+         }
 
         /// <summary>
         /// Добавляет значение в таблицу главной формы
         /// </summary>
         private void AcceptAddDiscountButton_Click(object sender, EventArgs e)
         {
-            Product product = new Product();
-
             try
             {
-                if (DiscountControl.DiscountComboBox.Text == "Percent")
-                {
-                    product.Price = Convert.ToDouble(DiscountControl.PriceTextBox.Text);
-                    PercentDiscount percent = new PercentDiscount();
-                    percent.Cost = Convert.ToDouble(DiscountControl.DiscountTextBox.Text);
-                    percent.Discount(product);
-                    AddLine = percent;
-                }
-                else if (DiscountControl.DiscountComboBox.Text == "Certificate")
-                {
-                    product.Price = Convert.ToDouble(DiscountControl.PriceTextBox.Text);
-                    CertificateDiscount certificate = new CertificateDiscount();
-                    certificate.Size = Convert.ToDouble(DiscountControl.DiscountTextBox.Text);
-                    certificate.Discount(product);
-                    AddLine = certificate;
-                }
-                else
-                {
-                    throw new Exception("Заполните пустые значения");
-                }
+                AddDiscount = discountControl.AddDiscount;
+                Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                return;
             }
-            Close();
         }
 
         /// <summary>

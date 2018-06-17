@@ -6,7 +6,6 @@ namespace UnitTest.model
     [TestFixture]
     class PercentUnitTest
     {
-        [Test]
         [TestCase(0, TestName = "Тестирование Size при присваивании 0")]
         [TestCase(1, TestName = "Тестирование Size при присваивании 1")]
         [TestCase(90, TestName = "Тестирование Size при присваивании 90")]
@@ -18,7 +17,6 @@ namespace UnitTest.model
             percent.Cost = value;
         }
 
-        [Test]
         [TestCase(TestName = "Тестирование подсчета скидки по процентам")]
         public void DiscountPercenttest()
         {
@@ -28,7 +26,9 @@ namespace UnitTest.model
             certificate.Cost = 10;
             IDiscount discount = certificate;
 
-            Assert.AreEqual(discount.Discount(product), 180);
+            double excepted = discount.Discount(product);
+            double actual = 180;
+            Assert.AreEqual(excepted, actual);
         }
     }
 }

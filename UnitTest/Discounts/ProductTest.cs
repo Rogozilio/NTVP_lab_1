@@ -6,7 +6,6 @@ namespace UnitTest.model
     [TestFixture]
     class ProductUnitTest
     {
-        [Test]
         [TestCase(0, TestName = "Тестирование Size при присваивании 0")]
         [TestCase(1, TestName = "Тестирование Size при присваивании 1")]
         [TestCase(99999, TestName = "Тестирование Size при присваивании 99999")]
