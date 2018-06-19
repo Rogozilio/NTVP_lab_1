@@ -18,7 +18,7 @@ namespace Discounts
         private double _percent { get; set; }
 
         /// <summary>
-        /// Свойство начения скидки
+        /// Свойство значения скидки
         /// </summary>
         public double Cost
         {

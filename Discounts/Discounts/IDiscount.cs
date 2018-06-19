@@ -26,7 +26,7 @@
             double Result { get; }
 
             /// <summary>
-            /// Вычесление цены товара с учетом скидки
+            /// Вычисление цены товара с учетом скидки
             /// </summary>
             double Discount(Product product);
         }

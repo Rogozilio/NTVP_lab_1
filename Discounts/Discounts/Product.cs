@@ -13,6 +13,9 @@ namespace Discounts
         /// </summary>
         private double _price { get; set; }
 
+        /// <summary>
+        /// Свойство цены продукта
+        /// </summary>
         public double Price
         {
             get
