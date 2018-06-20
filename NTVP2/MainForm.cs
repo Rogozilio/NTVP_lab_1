@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.IO;
 using Discounts;
+using StripMenu;
 
 namespace NTVP2
 {
@@ -35,23 +34,32 @@ namespace NTVP2
         }
 
         /// <summary>
+        /// Возвращает случайное число в диапазоне
+        /// </summary>
+        public int Random(int minValue, int maxValue)
+        {
+            Random random = new Random();
+            return random.Next(minValue, maxValue);
+        }
+
+        /// <summary>
         /// Заполнение таблицы случаными данными
         /// </summary>
         private void CreateRandomDataButton_Click(object sender, EventArgs e)
         {
             //TODO: генерация в отдельной сущности - говорили же об этом
-            Random random = new Random();
+            //Исправлено
             Product product = new Product();
 
-            product.Price = random.Next(100, 1000);
+            product.Price = Random(100, 1000);
             PercentDiscount percent = new PercentDiscount();
-            percent.Cost = random.Next(1, 90);
+            percent.Cost = Random(1, 90);
             percent.Discount(product);
             iDiscountBindingSource.Add(percent);
 
-            product.Price = random.Next(500, 1000);
+            product.Price = Random(500, 1000);
             CertificateDiscount certificate = new CertificateDiscount();
-            certificate.Size = random.Next(100, 500);
+            certificate.Size = Random(100, 500);
             certificate.Discount(product);
             iDiscountBindingSource.Add(certificate);
         }
@@ -98,28 +106,21 @@ namespace NTVP2
         /// </summary>
         private void RemoveDiscountButton_Click(object sender, EventArgs e)
         {
-            try
+            //TODO: Похоже на какой-то костыль с флагом. Заменить на проверку без флага через DiscountGridView.SelectedRows != null или типа того
+            //исправлено
+            if (DiscountGridView.SelectedRows.Count != 0)
             {
-                //TODO: Похоже на какой-то костыль с флагом. Заменить на проверку без флага через DiscountGridView.SelectedRows != null или типа того
-                bool isAllottedRow = false;
                 for (int i = DiscountGridView.Rows.Count - 1; i >= 0; i--)
                 {
-                    if(DiscountGridView.Rows[i].Selected)
+                    if (DiscountGridView.Rows[i].Selected)
                     {
-                        isAllottedRow = true;
                         iDiscountBindingSource.RemoveAt(i);
                     }
                 }
-                if(isAllottedRow == false)
-                {
-                    throw new Exception("Для удаления нужно выделить строку");
-                }
             }
-            catch (Exception ex)
+            else
             {
-                //TODO: Неправильно кидать исключения самому себе. Почему вместо try-catch не сразу показать месседжбокс под условием?
-                MessageBox.Show(ex.Message);
-                return;
+                MessageBox.Show("Для удаления нужно выделить строку");
             }
         }
 
@@ -142,26 +143,26 @@ namespace NTVP2
         /// </summary>
         private void FindElement(int index)
         {
-            try
+            DiscountGridView.ClearSelection();
+            for (int i = 0; i < DiscountGridView.RowCount; i++)
             {
-                DiscountGridView.ClearSelection();
-                for (int i = 0; i < DiscountGridView.RowCount; i++)
+                //TODO: такие длинные условия плохо читаемы.
+                // Вынести каждое парсируемое значение в отдельную локальную переменную.
+                // Под условием использовать локальные переменные.
+                // А вместо try-catch и Convert.ToDouble() использовать Double.TryParse() (почитай про метод - полезный)
+                // Исправлено
+                string tableValue = DiscountGridView[index, i].Value.ToString();
+                string textBoxValue = ValueTextBox.Text;
+                string typeDiscount = DiscountGridView[0, i].Value.ToString();
+                double digitalTableValue;
+                double digitalTextBoxValue;
+                if (double.TryParse(tableValue, out digitalTableValue)
+                    && double.TryParse(textBoxValue, out digitalTextBoxValue)
+                    && digitalTableValue == digitalTextBoxValue
+                    && typeDiscount == TypeDiscountComboBox.Text)
                 {
-                    //TODO: такие длинные условия плохо читаемы.
-                    // Вынести каждое парсируемое значение в отдельную локальную переменную.
-                    // Под условием использовать локальные переменные.
-                    // А вместо try-catch и Convert.ToDouble() использовать Double.TryParse() (почитай про метод - полезный)
-                    if (Convert.ToDouble(DiscountGridView[index, i].Value) == Convert.ToDouble(ValueTextBox.Text)
-                        && Convert.ToString(DiscountGridView[0, i].Value) == TypeDiscountComboBox.Text)
-                    {
-                        DiscountGridView.Rows[i].Cells[index].Selected = true;
-                    }
+                    DiscountGridView.Rows[i].Cells[index].Selected = true;
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                return;
             }
         }
 
@@ -178,14 +179,28 @@ namespace NTVP2
         }
 
         /// <summary>
+        /// Свойство хранящее путь к файлу
+        /// </summary>
+        public string FilePath { get; set; }
+
+        /// <summary>
         /// Открытие файла
         /// </summary>
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
-                DiscountList = Serialize.OpenData(DiscountList);
-                iDiscountBindingSource.DataSource = DiscountList;
+                if (OpenFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    FilePath = OpenFileDialog.FileName;
+                    DiscountList = Data.OpenToFile(FilePath);
+                    iDiscountBindingSource.DataSource = DiscountList;
+                }
+                else
+                {
+                    MessageBox.Show("Открытие файла отменено");
+                    return;
+                }
             }
             catch (Exception ex)
             {
@@ -201,7 +216,25 @@ namespace NTVP2
         {
             try
             {
-                Serialize.SaveData(DiscountList);
+                if (FilePath != null)
+                {
+                        Data.SaveToFile(DiscountList, FilePath);
+                        MessageBox.Show("Сохранено успешно");
+                }
+                else
+                {
+                    if (SaveFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        FilePath = SaveFileDialog.FileName;
+                        Data.SaveToFile(DiscountList, FilePath);
+                        MessageBox.Show("Сохранено успешно");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Сохранение отменено");
+                        return;
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -217,7 +250,17 @@ namespace NTVP2
         {
             try
             {
-                Serialize.SaveAsData(DiscountList);
+                if (SaveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    FilePath = SaveFileDialog.FileName;
+                    Data.SaveToFile(DiscountList, FilePath);
+                    MessageBox.Show("Сохранено успешно");
+                }
+                else
+                {
+                    MessageBox.Show("Сохранение отменено");
+                    return;
+                }
             }
             catch (Exception ex)
             {
