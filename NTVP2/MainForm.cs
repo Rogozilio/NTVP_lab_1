@@ -39,6 +39,7 @@ namespace NTVP2
         /// </summary>
         private void CreateRandomDataButton_Click(object sender, EventArgs e)
         {
+            //TODO: генерация в отдельной сущности - говорили же об этом
             Random random = new Random();
             Product product = new Product();
 
@@ -99,6 +100,7 @@ namespace NTVP2
         {
             try
             {
+                //TODO: Похоже на какой-то костыль с флагом. Заменить на проверку без флага через DiscountGridView.SelectedRows != null или типа того
                 bool isAllottedRow = false;
                 for (int i = DiscountGridView.Rows.Count - 1; i >= 0; i--)
                 {
@@ -115,6 +117,7 @@ namespace NTVP2
             }
             catch (Exception ex)
             {
+                //TODO: Неправильно кидать исключения самому себе. Почему вместо try-catch не сразу показать месседжбокс под условием?
                 MessageBox.Show(ex.Message);
                 return;
             }
@@ -144,6 +147,10 @@ namespace NTVP2
                 DiscountGridView.ClearSelection();
                 for (int i = 0; i < DiscountGridView.RowCount; i++)
                 {
+                    //TODO: такие длинные условия плохо читаемы.
+                    // Вынести каждое парсируемое значение в отдельную локальную переменную.
+                    // Под условием использовать локальные переменные.
+                    // А вместо try-catch и Convert.ToDouble() использовать Double.TryParse() (почитай про метод - полезный)
                     if (Convert.ToDouble(DiscountGridView[index, i].Value) == Convert.ToDouble(ValueTextBox.Text)
                         && Convert.ToString(DiscountGridView[0, i].Value) == TypeDiscountComboBox.Text)
                     {
